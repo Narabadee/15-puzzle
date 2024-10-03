@@ -1,39 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="th">
 <head>
-    <meta charset='utf-8'>
-    <title>Sliding Puzzle</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sliding Puzzle Game</title>
+    <link rel="stylesheet" href="style.css"><div id="timeDisplay">
+        <div id="currentTime">Time: 00:00</div>
+        <div id="bestTime">Best Time: 00:00</div>
+        <button id="resetButton" style="display:none;">Reset</button> <!-- ปุ่ม Reset -->
+    </div>    
+
 </head>
 <body>
-    <h1>Sliding Puzzle</h1>
-    
-    <!-- Login Form -->
-    <div id="loginForm">
-        <input type="text" id="playerName" placeholder="Enter your name">
-        <button id="loginButton">Login</button>
+    <div id="login-page">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Enter your name">
+        <button id="login-btn">Login</button>
     </div>
 
-    <!-- Game Interface -->
-    <div id="gameContainer" style="display:none;">
-        <div id="tiles"></div>
-        <button id="startButton">Start</button>
-        <button id="homeButton">Home</button>
-        <button id="resetButton">Reset</button>
-
-        <div id="timeDisplay">
-            <div id="currentTime">Time: 00:00</div>
-            <div id="bestTime">Best Time: 00:00</div>
-        </div>
+    <div id="game-page" style="display:none;">
+        <h2>Sliding Puzzle</h2>
+        <div id="puzzle-container"></div>
+        <div id="moves">Moves: <span id="move-count">0</span></div>
+        <div id="time">Time: <span id="time-count">0</span> seconds</div>
     </div>
 
-    <!-- Leaderboard -->
-    <div id="leaderboardContainer" style="display:none;">
+    <div id="win-message" style="display:none;">
+        <h2>Congratulations, <span id="winner-name"></span>! You won the game!</h2>
+        <button id="play-again-btn">Play Again</button>
+    </div>
+
+    <div id="leaderboard">
         <h2>Leaderboard</h2>
-        <ul id="leaderboard"></ul>
+        <ol id="leaderboard-list"></ol>
+        <div>Best Time: <span id="best-time">N/A</span> seconds</div>
     </div>
 
-    <script src="script.js" type="text/javascript"></script>
+    <script src="script.js"></script>
 </body>
 </html>

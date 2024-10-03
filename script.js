@@ -1,29 +1,22 @@
-let size = 4;
-let numberOfTiles = size ** 2;
-let highlighted = numberOfTiles;
-let shuffled = false;
-let gameStarted = false;
-let playerName = '';  // Player's name
+let username = '';
+let leaderboard = [];
+let moves = 0;
+let emptyIndex = 15;
+let puzzle = [];
+let startTime = 0;
+let timerInterval;
+let bestTime = null;
 
-// Leaderboard
-let leaderboard = JSON.parse(localStorage.getItem('leaderboard')) || [];
-
-// Elements
-let buttonContainer = document.getElementById('tiles');
-let startTime, timerInterval;
-let bestTime = localStorage.getItem('bestTime') || '99:99';
-
-// Login and Game Events
-document.getElementById('loginButton').addEventListener('click', login);
-document.getElementById("resetButton").addEventListener("click", resetGame);
-document.getElementById("startButton").addEventListener("click", startGame);
-document.getElementById("homeButton").addEventListener("click", goHome);
-
-// Keyboard controls
-const RIGHT_ARROW = 39;
-const LEFT_ARROW = 37;
-const UP_ARROW = 40;
-const DOWN_ARROW = 38;
+document.getElementById('login-btn').addEventListener('click', () => {
+    username = document.getElementById('username').value;
+    if (username) {
+        document.getElementById('login-page').style.display = 'none';
+        document.getElementById('game-page').style.display = 'block';
+        
+        initializePuzzle();
+        startTimer();
+    }
+});
 
 window.onkeydown = function (event) {
     if (event.keyCode === RIGHT_ARROW) {
@@ -37,197 +30,122 @@ window.onkeydown = function (event) {
     }
 };
 
-// Login Function
-function login() {
-    const inputName = document.getElementById('playerName').value.trim();
-    if (inputName === '') {
-        alert('Please enter your name');
-        return;
+
+document.getElementById('play-again-btn').addEventListener('click', () => {
+    document.getElementById('win-message').style.display = 'none';
+    document.getElementById('login-page').style.display = 'block';
+    moves = 0;
+    document.getElementById('move-count').innerText = moves;
+    resetTimer();
+});
+
+function initializePuzzle() {
+    puzzle = Array.from({ length: 15 }, (_, i) => i + 1).concat(null);
+    puzzle = shuffle(puzzle);
+    renderPuzzle();
+}
+
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
-    playerName = inputName;
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('gameContainer').style.display = 'block';
-    displayLeaderboard();
+    return array;
+}
+
+function renderPuzzle() {
+    const container = document.getElementById('puzzle-container');
+    container.innerHTML = '';
+    puzzle.forEach((value, index) => {
+        const div = document.createElement('div');
+        if (value !== null) {
+            div.innerText = value;
+            div.addEventListener('click', () => moveTile(index));
+        } else {
+            emptyIndex = index;
+            div.style.backgroundColor = '#ecf0f1';
+        }
+        container.appendChild(div);
+    });
+}
+
+function moveTile(index) {
+    const validMoves = [emptyIndex - 1, emptyIndex + 1, emptyIndex - 4, emptyIndex + 4];
+    if (validMoves.includes(index)) {
+        [puzzle[emptyIndex], puzzle[index]] = [puzzle[index], puzzle[emptyIndex]];
+        emptyIndex = index;
+        moves++;
+        document.getElementById('move-count').innerText = moves;
+        renderPuzzle();
+        checkWin();
+    }
+}
+
+function checkWin() {
+    const isWin = puzzle.slice(0, 15).every((num, i) => num === i + 1);
+    if (isWin) {
+        stopTimer();
+        document.getElementById('game-page').style.display = 'none';
+        document.getElementById('win-message').style.display = 'block';
+        document.getElementById('winner-name').innerText = username;
+        updateLeaderboard();
+    }
+}
+
+// ฟังก์ชันจับเวลา
+function startTimer() {
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+        document.getElementById('time-count').innerText = elapsedTime;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    document.getElementById('time-count').innerText = '0';
+}
+
+function updateLeaderboard() {
+    const currentTime = Math.floor((Date.now() - startTime) / 1000);
+
+    leaderboard.push({ name: username, moves, time: currentTime });
+    leaderboard.sort((a, b) => a.moves - b.moves || a.time - b.time);
+    
+    if (bestTime === null || currentTime < bestTime) {
+        bestTime = currentTime;
+        document.getElementById('best-time').innerText = bestTime;
+    }
+
+    renderLeaderboard();
+}
+
+function renderLeaderboard() {
+    const leaderboardList = document.getElementById('leaderboard-list');
+    leaderboardList.innerHTML = '';
+    leaderboard.forEach(entry => {
+        const li = document.createElement('li');
+        li.innerText = `${entry.name} - ${entry.moves} moves - ${entry.time} seconds`;
+        leaderboardList.appendChild(li);
+    });
 }
 
 function resetGame() {
-    buttonContainer.innerHTML = '';
+    buttonContainer.innerHTML = ''; // ล้างกระดานเกม
     highlighted = numberOfTiles;
     shuffled = false;
     gameStarted = false;
-    startTime = new Date();
+    clearInterval(timerInterval); // หยุดจับเวลา
+    document.getElementById('currentTime').innerText = 'Time: 00:00'; // รีเซ็ตเวลาเป็น 00:00
     
-    loadTiles(size);
-    shuffle();
-    
-    clearInterval(timerInterval);
-    timerInterval = setInterval(updateTime, 1000);
-}
+    loadTiles(size); // โหลดกระดานใหม่
+    shuffle(); // สุ่มกระดานใหม่
+    document.getElementById("resetButton").style.display = 'none'; // ซ่อนปุ่ม Reset หลังจากกดรีเซ็ตแล้ว
+    document.getElementById("startButton").style.display = 'block'; // แสดงปุ่ม Start อีกครั้ง
+    document.getElementById("resetButton").addEventListener("click", resetGame); // ปุ่ม Reset
 
-function startGame() {
-    newGame();
-    document.getElementById("startButton").style.display = 'none';
-    document.getElementById("homeButton").style.display = 'block';
-    document.getElementById("resetButton").style.display = 'block';
-    gameStarted = true;
-
-    startTime = new Date();
-    timerInterval = setInterval(updateTime, 1000); // Update every second
-}
-
-function goHome() {
-    buttonContainer.innerHTML = '';
-    highlighted = numberOfTiles;
-    shuffled = false;
-    gameStarted = false;
-
-    clearInterval(timerInterval);
-    document.getElementById('currentTime').innerText = 'Time: 00:00';
-    document.getElementById('bestTime').innerText = `Best Time: ${bestTime}`;
-
-    document.getElementById("startButton").style.display = 'block';
-    document.getElementById("homeButton").style.display = 'none';
-    document.getElementById("resetButton").style.display = 'none';
-}
-
-// Game Logic (unchanged)
-function newGame() {
-    loadTiles(size);
-    setTimeout(shuffle, 500);
-}
-
-function loadTiles(n) {
-    for (let b = 1; b <= numberOfTiles; b++) {
-        const newTile = document.createElement('button');
-        newTile.id = `btn${b}`;
-        newTile.setAttribute('index', b);
-        newTile.innerHTML = b;
-        newTile.classList.add('btn');
-        newTile.addEventListener('click', () => swap(parseInt(newTile.getAttribute('index'))));
-        buttonContainer.append(newTile);
-    }
-    updateSelectedTile();
-}
-
-function updateSelectedTile() {
-    const selectedTileId = `btn${highlighted}`;
-    const selectedTile = document.getElementById(selectedTileId);
-    selectedTile.classList.add("selected");
-}
-
-function shuffle() {
-    let minShuffles = 100;
-    let totalShuffles = minShuffles + Math.floor(Math.random() * 101);
-
-    for (let i = 0; i < totalShuffles; i++) {
-        setTimeout(() => {
-            let direction;
-            switch (Math.floor(Math.random() * 4)) {
-                case 0:
-                    direction = highlighted + 1;
-                    break;
-                case 1:
-                    direction = highlighted - 1;
-                    break;
-                case 2:
-                    direction = highlighted + size;
-                    break;
-                case 3:
-                    direction = highlighted - size;
-                    break;
-            }
-            swap(direction);
-        }, i * 10);
-    }
-    shuffled = true;
-}
-
-function swap(clicked) {
-    if (clicked < 1 || clicked > numberOfTiles) return;
-
-    if ((clicked === highlighted + 1 && clicked % size !== 1) ||
-        (clicked === highlighted - 1 && clicked % size !== 0) ||
-        clicked === highlighted + size ||
-        clicked === highlighted - size) {
-
-        setSelected(clicked);
-
-        if (shuffled && gameStarted && checkHasWon()) {
-            endGame();
-        }
-    }
-}
-
-function checkHasWon() {
-    for (let b = 1; b <= numberOfTiles; b++) {
-        const currentTile = document.getElementById(`btn${b}`);
-        const currentTileIndex = currentTile.getAttribute('index');
-        const currentTileValue = currentTile.innerHTML;
-        if (parseInt(currentTileIndex) !== parseInt(currentTileValue)) {
-            return false;
-        }
-    }
-    return true;
-}
-
-function setSelected(index) {
-    const currentTile = document.getElementById(`btn${highlighted}`);
-    const currentTileText = currentTile.innerHTML;
-    currentTile.classList.remove('selected');
-    const newTile = document.getElementById(`btn${index}`);
-    currentTile.innerHTML = newTile.innerHTML;
-    newTile.innerHTML = currentTileText;
-    newTile.classList.add("selected");
-    highlighted = index;
-}
-
-function updateTime() {
-    const now = new Date();
-    const elapsed = now - startTime;
-    const minutes = Math.floor(elapsed / 60000);
-    const seconds = Math.floor((elapsed % 60000) / 1000);
-    const formattedTime = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    document.getElementById('currentTime').innerText = `Time: ${formattedTime}`;
-}
-
-function endGame() {
-    clearInterval(timerInterval); // Stop the timer
-    const currentTime = document.getElementById('currentTime').innerText.split(' ')[1];
-
-    leaderboard.push({ name: playerName, time: currentTime });
-    leaderboard.sort((a, b) => compareTimes(a.time, b.time));
-    leaderboard = leaderboard.slice(0, 10); // Keep top 10
-    localStorage.setItem('leaderboard', JSON.stringify(leaderboard));
-
-    showLeaderboard();
-    
-    setTimeout(() => {
-        alert(`Congratulations, ${playerName}! You finished in ${currentTime}`);
-    }, 100);
-}
-
-function showLeaderboard() {
-    const leaderboardContainer = document.getElementById('leaderboard');
-    leaderboardContainer.innerHTML = '';
-    leaderboard.forEach((entry, index) => {
-        const li = document.createElement('li');
-        li.textContent = `${index + 1}. ${entry.name} - ${entry.time}`;
-        leaderboardContainer.appendChild(li);
-    });
-    document.getElementById("leaderboardContainer").style.display = 'block';
-}
-
-function compareTimes(time1, time2) {
-    const [min1, sec1] = time1.split(':').map(Number);
-    const [min2, sec2] = time2.split(':').map(Number);
-    if (min1 !== min2) {
-        return min1 - min2;
-    }
-    return sec1 - sec2;
-}
-
-function isBetterTime(current, best) {
-    const [currentMinutes, currentSeconds] = current.split(':').map(Number);
-    const [bestMinutes, bestSeconds] = best.split(':').map(Number);
-    return currentMinutes < bestMinutes || (currentMinutes === bestMinutes && currentSeconds < bestSeconds);
 }
