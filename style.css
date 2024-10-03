@@ -1,0 +1,107 @@
+html {
+    background-color: rgb(3, 0, 27);
+}
+
+h1 {
+   text-align: center;
+   font-size: 4rem;
+   color: white;
+}
+
+#tiles {
+   width: 400px;
+   margin: 0 auto;
+   position: relative;
+   background-color: rgb(3, 0, 27);
+   padding: 8px;
+   border-radius: 0.5rem;
+}
+
+.selected {
+   background-color: #ffffff;
+   border: none;
+   color: white;
+}
+
+.btn {
+   font-size: 24px;
+   height: 80px;
+   width: 25%;
+   cursor: pointer;
+}
+
+#resetButton {
+    display: none; /* Hide initially */
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #FF8961;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+#startButton {
+    display: block;
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+#homeButton {
+    display: none; /* Initially hidden */
+    margin: 20px auto;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+}
+
+#timeDisplay {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 18px;
+    text-align: right;
+}
+
+#currentTime,
+#bestTime {
+    margin: 5px 0;
+}
+#loginContainer {
+    text-align: center;
+    margin-top: 50px;
+}
+
+#playerName {
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+#loginButton {
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+#leaderboardContainer {
+    text-align: center;
+    margin-top: 30px;
+    color: white;
+}
+
+#leaderboard li {
+    font-size: 1.2rem;
+}
+
