@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sliding Puzzle Game</title>
     <link rel="stylesheet" href="style.css"><div id="timeDisplay">
-        <div id="currentTime">Time: 00:00</div>
-        <div id="bestTime">Best Time: 00:00</div>
-        <button id="resetButton" style="display:none;">Reset</button> <!-- ปุ่ม Reset -->
+        <button id="go-back-btn" style="display:none;">Go Back</button> <!-- Go Back button -->
     </div>    
 
 </head>
@@ -16,6 +14,11 @@
         <h2>Login</h2>
         <input type="text" id="username" placeholder="Enter your name">
         <button id="login-btn">Login</button>
+        <div id="leaderboard">
+            <h2>Leaderboard</h2>
+            <ol id="leaderboard-list"></ol>
+            <div>Best Time: <span id="best-time">N/A</span> seconds</div>
+        </div>
     </div>
 
     <div id="game-page" style="display:none;">
@@ -28,12 +31,6 @@
     <div id="win-message" style="display:none;">
         <h2>Congratulations, <span id="winner-name"></span>! You won the game!</h2>
         <button id="play-again-btn">Play Again</button>
-    </div>
-
-    <div id="leaderboard">
-        <h2>Leaderboard</h2>
-        <ol id="leaderboard-list"></ol>
-        <div>Best Time: <span id="best-time">N/A</span> seconds</div>
     </div>
 
     <script src="script.js"></script>

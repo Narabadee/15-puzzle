@@ -13,6 +13,12 @@ document.getElementById('login-btn').addEventListener('click', () => {
         document.getElementById('login-page').style.display = 'none';
         document.getElementById('game-page').style.display = 'block';
         
+        // Hide the leaderboard after login
+        document.getElementById('leaderboard').style.display = 'none';
+        
+        // Show the Go Back button
+        document.getElementById('go-back-btn').style.display = 'block';
+
         initializePuzzle();
         startTimer();
     }
@@ -34,15 +40,49 @@ window.onkeydown = function (event) {
 document.getElementById('play-again-btn').addEventListener('click', () => {
     document.getElementById('win-message').style.display = 'none';
     document.getElementById('login-page').style.display = 'block';
+
+    // Show the leaderboard again
+    document.getElementById('leaderboard').style.display = 'block';
+
+    // Hide the Go Back button
+    document.getElementById('go-back-btn').style.display = 'none';
+
     moves = 0;
     document.getElementById('move-count').innerText = moves;
     resetTimer();
 });
 
+document.getElementById('go-back-btn').addEventListener('click', () => {
+    document.getElementById('game-page').style.display = 'none';
+    document.getElementById('login-page').style.display = 'block';
+
+    // Show the leaderboard again
+    document.getElementById('leaderboard').style.display = 'block';
+
+    // Hide the Go Back button
+    document.getElementById('go-back-btn').style.display = 'none';
+});
+
 function initializePuzzle() {
-    puzzle = Array.from({ length: 15 }, (_, i) => i + 1).concat(null);
-    puzzle = shuffle(puzzle);
+    do {
+        puzzle = Array.from({ length: 15 }, (_, i) => i + 1).concat(null);
+        puzzle = shuffle(puzzle);
+    } while (!isSolvable(puzzle)); // Keep shuffling until a solvable puzzle is found
+
     renderPuzzle();
+}
+
+function isSolvable(puzzle) {
+    const inversions = countInversions(puzzle);
+    const emptyIndex = puzzle.indexOf(null);
+    const emptyRow = Math.floor(emptyIndex / 4); // Assuming a 4x4 grid
+
+    // Check if the puzzle is solvable
+    if (emptyRow % 2 === 0) { // empty tile is on an even row (0-indexed)
+        return inversions % 2 === 1; // must have odd inversions
+    } else { // empty tile is on an odd row (0-indexed)
+        return inversions % 2 === 0; // must have even inversions
+    }
 }
 
 function shuffle(array) {
@@ -51,6 +91,20 @@ function shuffle(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
     return array;
+}
+
+function countInversions(puzzle) {
+    let inversions = 0;
+    const flatPuzzle = puzzle.filter(num => num !== null); // Remove the empty tile
+
+    for (let i = 0; i < flatPuzzle.length; i++) {
+        for (let j = i + 1; j < flatPuzzle.length; j++) {
+            if (flatPuzzle[i] > flatPuzzle[j]) {
+                inversions++;
+            }
+        }
+    }
+    return inversions;
 }
 
 function renderPuzzle() {
@@ -132,20 +186,4 @@ function renderLeaderboard() {
         li.innerText = `${entry.name} - ${entry.moves} moves - ${entry.time} seconds`;
         leaderboardList.appendChild(li);
     });
-}
-
-function resetGame() {
-    buttonContainer.innerHTML = ''; // ล้างกระดานเกม
-    highlighted = numberOfTiles;
-    shuffled = false;
-    gameStarted = false;
-    clearInterval(timerInterval); // หยุดจับเวลา
-    document.getElementById('currentTime').innerText = 'Time: 00:00'; // รีเซ็ตเวลาเป็น 00:00
-    
-    loadTiles(size); // โหลดกระดานใหม่
-    shuffle(); // สุ่มกระดานใหม่
-    document.getElementById("resetButton").style.display = 'none'; // ซ่อนปุ่ม Reset หลังจากกดรีเซ็ตแล้ว
-    document.getElementById("startButton").style.display = 'block'; // แสดงปุ่ม Start อีกครั้ง
-    document.getElementById("resetButton").addEventListener("click", resetGame); // ปุ่ม Reset
-
 }
