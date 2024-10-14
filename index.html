@@ -1,38 +1,58 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
+    <!-- กำหนดภาษาของเอกสารให้เป็นภาษาไทย -->
     <meta charset="UTF-8">
+    <!-- ทำให้หน้าเว็บแสดงผลได้ดีบนทุกอุปกรณ์ (Responsive) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sliding Puzzle Game</title>
-    <link rel="stylesheet" href="style.css"><div id="timeDisplay">
-        <button id="go-back-btn" style="display:none;">Go Back</button> <!-- Go Back button -->
+    <!-- เชื่อมโยงกับไฟล์ CSS ภายนอก -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- แสดงเวลาของเกมและปุ่ม "Go Back" (ซ่อนอยู่ในตอนแรก) -->
+    <div id="timeDisplay">
+        <button id="go-back-btn" style="display:none;">Go Back</button> <!-- ปุ่มสำหรับกลับไปที่หน้าหลัก (ซ่อนในตอนแรก) -->
     </div>    
-
 </head>
+
 <body>
+    <!-- ส่วนของหน้า login -->
     <div id="login-page">
         <h2>Login</h2>
+        <!-- ช่องใส่ชื่อผู้ใช้ -->
         <input type="text" id="username" placeholder="Enter your name">
+        <!-- ปุ่ม Login -->
         <button id="login-btn">Login</button>
+
+        <!-- ส่วนของ Leaderboard -->
         <div id="leaderboard">
             <h2>Leaderboard</h2>
+            <!-- แสดงรายชื่อใน leaderboard -->
             <ol id="leaderboard-list"></ol>
+            <!-- แสดงเวลาที่ดีที่สุด -->
             <div>Best Time: <span id="best-time">N/A</span> seconds</div>
         </div>
     </div>
 
+    <!-- ส่วนของหน้าเกม (ซ่อนอยู่ในตอนแรก) -->
     <div id="game-page" style="display:none;">
         <h2>Sliding Puzzle</h2>
+        <!-- พื้นที่สำหรับเกมตัวต่อ -->
         <div id="puzzle-container"></div>
+        <!-- แสดงจำนวนการเคลื่อนไหว -->
         <div id="moves">Moves: <span id="move-count">0</span></div>
+        <!-- แสดงเวลาในการเล่น -->
         <div id="time">Time: <span id="time-count">0</span> seconds</div>
     </div>
 
+    <!-- แสดงข้อความเมื่อผู้เล่นชนะ (ซ่อนในตอนแรก) -->
     <div id="win-message" style="display:none;">
         <h2>Congratulations, <span id="winner-name"></span>! You won the game!</h2>
+        <!-- ปุ่มสำหรับเล่นใหม่ -->
         <button id="play-again-btn">Play Again</button>
     </div>
 
+    <!-- เชื่อมโยงกับไฟล์ JavaScript ภายนอก -->
     <script src="script.js"></script>
 </body>
 </html>

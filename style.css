@@ -1,123 +1,126 @@
 html {
-    background-color: rgb(3, 0, 27);
+    background-color: rgb(3, 0, 27); /* กำหนดสีพื้นหลังสำหรับหน้าเว็บทั้งหมด */
 }
 
 h1 {
-    text-align: center;
-    font-size: 4rem;
-    color: white;
- }
+    text-align: center; /* จัดตำแหน่งข้อความ h1 ให้อยู่กึ่งกลาง */
+    font-size: 4rem; /* ขนาดตัวอักษรใหญ่ */
+    color: white; /* สีตัวอักษรเป็นสีขาว */
+}
  
- body {
-    font-family: Arial, sans-serif;
-    text-align: center;
+body {
+    font-family: Arial, sans-serif; /* ใช้ฟอนต์ Arial */
+    text-align: center; /* จัดข้อความให้อยู่กึ่งกลาง */
     margin: 0;
     padding: 0;
-    background-color: rgb(3, 0, 27);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full viewport height */
+    background-color: rgb(3, 0, 27); /* กำหนดสีพื้นหลัง */
+    display: flex; /* ใช้ flexbox ในการจัดวาง */
+    justify-content: center; /* จัดวางเนื้อหาให้อยู่กลางตามแนวนอน */
+    align-items: center; /* จัดวางเนื้อหาให้อยู่กลางตามแนวตั้ง */
+    height: 100vh; /* ใช้ความสูงเท่ากับความสูงของ viewport */
 }
 
 #puzzle-container {
     text-align: center;
-    display: grid;
-    grid-template-columns: repeat(4, 100px);
-    grid-template-rows: repeat(4, 100px);
-    gap: 2px;
-    margin: 0; /* Remove fixed margin */
-    width: fit-content; /* Adjust width to fit content */
-    height: fit-content; /* Adjust height to fit content */
+    display: grid; /* ใช้ grid layout สำหรับการจัดวาง puzzle */
+    grid-template-columns: repeat(4, 100px); /* กำหนดให้มี 4 คอลัมน์ ขนาด 100px */
+    grid-template-rows: repeat(4, 100px); /* กำหนดให้มี 4 แถว ขนาด 100px */
+    gap: 2px; /* ระยะห่างระหว่าง grid แต่ละช่อง */
+    margin: 0; /* ลบค่าขอบในที่อาจเกิดขึ้น */
+    width: fit-content; /* ขนาดความกว้างพอดีกับเนื้อหา */
+    height: fit-content; /* ขนาดความสูงพอดีกับเนื้อหา */
 }
 
 #puzzle-container div {
     width: 100px;
     height: 100px;
-    background-color: #3498db;
+    background-color: #3498db; /* สีพื้นหลังของแต่ละช่อง puzzle */
     display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
+    justify-content: center; /* จัดวางเนื้อหาในช่องให้อยู่กลางตามแนวนอน */
+    align-items: center; /* จัดวางเนื้อหาในช่องให้อยู่กลางตามแนวตั้ง */
+    color: white; /* สีตัวอักษรในช่อง */
+    font-size: 24px; /* ขนาดตัวอักษร */
+    cursor: pointer; /* เปลี่ยนรูป cursor เป็นรูปมือเมื่อชี้ที่ช่อง */
 }
 
 #win-message, #login-page, #game-page {
-    margin-top: 30px;
-    color: white;
+    margin-top: 30px; /* ระยะห่างด้านบนสำหรับข้อความหรือหน้าเหล่านี้ */
+    color: white; /* สีตัวอักษรเป็นสีขาว */
 }
 
 button {
-    padding: 10px 20px;
-    cursor: pointer;
-    margin: 10px;
-
+    padding: 10px 20px; /* กำหนด padding สำหรับปุ่ม */
+    cursor: pointer; /* เปลี่ยนรูป cursor เป็นรูปมือเมื่อชี้ที่ปุ่ม */
+    margin: 10px; /* ระยะห่างรอบๆ ปุ่ม */
 }
 
 #leaderboard {
-    margin-top: 20px;
-    color: white;
+    margin-top: 20px; /* ระยะห่างด้านบนสำหรับ leaderboard */
+    color: white; /* สีตัวอักษรใน leaderboard */
 }
+
 #moves, #time {
-    margin: 10px 0;
-    font-size: 18px;
-    color: white;
+    margin: 10px 0; /* ระยะห่างด้านบนและด้านล่าง */
+    font-size: 18px; /* ขนาดตัวอักษร */
+    color: white; /* สีตัวอักษร */
 }
+
 #tiles {
     width: 400px;
-    margin: 0 auto;
-    position: relative;
-    background-color: rgb(3, 0, 27);
-    padding: 8px;
-    border-radius: 0.5rem;
- }
- .selected {
-    background-color: #ffffff;
-    border: none;
-    color: white;
- }
- .btn {
-    font-size: 24px;
-    height: 80px;
-    width: 25%;
-    cursor: pointer;
- }
+    margin: 0 auto; /* จัดให้อยู่กึ่งกลางของหน้า */
+    position: relative; /* ทำให้สามารถจัดวางตำแหน่งแบบ absolute ภายใน #tiles ได้ */
+    background-color: rgb(3, 0, 27); /* สีพื้นหลังของ container */
+    padding: 8px; /* กำหนด padding รอบ container */
+    border-radius: 0.5rem; /* ขอบมุมโค้งมน */
+}
+
+.selected {
+    background-color: #ffffff; /* สีพื้นหลังของตัวเลือกที่ถูกเลือก */
+    border: none; /* ไม่มีเส้นขอบ */
+    color: white; /* สีตัวอักษร */
+}
+
+.btn {
+    font-size: 24px; /* ขนาดตัวอักษรของปุ่ม */
+    height: 80px; /* ความสูงของปุ่ม */
+    width: 25%; /* กำหนดความกว้างปุ่มให้เท่ากับ 25% ของ container */
+    cursor: pointer; /* เปลี่ยนรูป cursor เป็นรูปมือเมื่อชี้ที่ปุ่ม */
+}
 
 #login-page {
-    display: flex;
-    flex-direction: column; /* Stack the login form and leaderboard vertically */
-    justify-content: center;
-    align-items: center;
-    background-color: #2c3e50;
-    padding: 20px;
-    border-radius: 10px;
+    display: flex; /* ใช้ flexbox สำหรับจัดวางภายในหน้า login */
+    flex-direction: column; /* จัดวางองค์ประกอบในแนวตั้ง */
+    justify-content: center; /* จัดวางองค์ประกอบให้อยู่กึ่งกลางตามแนวตั้ง */
+    align-items: center; /* จัดให้องค์ประกอบอยู่กึ่งกลางตามแนวนอน */
+    background-color: #2c3e50; /* สีพื้นหลังของหน้า login */
+    padding: 20px; /* ระยะห่างภายในหน้า login */
+    border-radius: 10px; /* ขอบมุมโค้งมน */
 }
- 
+
 #leaderboard {
-    margin-top: 20px; /* Space between login form and leaderboard */
-    color: white;
+    margin-top: 20px; /* ระยะห่างด้านบนสำหรับ leaderboard ในหน้า login */
+    color: white; /* สีตัวอักษรของ leaderboard */
 }
 
 #game-page {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Distribute space between elements */
-    align-items: flex-start; /* Align items to the start (left) */
-    color: white;
-    height: 100vh; /* Full viewport height */
-    position: relative; /* Position context for absolute elements */
+    display: flex; /* ใช้ flexbox ในการจัดวาง */
+    flex-direction: column; /* จัดวางองค์ประกอบในแนวตั้ง */
+    justify-content: space-between; /* จัดวางเนื้อหาโดยให้กระจายพื้นที่ระหว่างกัน */
+    align-items: flex-start; /* จัดวางเนื้อหาให้อยู่ด้านซ้าย (start) */
+    color: white; /* สีตัวอักษร */
+    height: 100vh; /* ใช้ความสูงเท่ากับความสูงของ viewport */
+    position: relative; /* กำหนดให้เป็น context สำหรับ position แบบ absolute ของลูก */
 }
 
 #go-back-btn {
-    position: absolute; /* Use absolute positioning */
-    bottom: 5px; /* Distance from the bottom */
-    right: 20px; /* Distance from the right */
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 18px;
-    background-color: #FF8961;
-    color: white;
-    border: none;
-    border-radius: 0.5rem;
+    position: absolute; /* ปุ่ม Go Back ใช้ position แบบ absolute */
+    bottom: 5px; /* ระยะห่างจากด้านล่าง */
+    right: 20px; /* ระยะห่างจากด้านขวา */
+    padding: 10px 20px; /* ขนาด padding สำหรับปุ่ม */
+    cursor: pointer; /* เปลี่ยนรูป cursor เป็นรูปมือเมื่อชี้ที่ปุ่ม */
+    font-size: 18px; /* ขนาดตัวอักษรในปุ่ม */
+    background-color: #FF8961; /* สีพื้นหลังของปุ่ม */
+    color: white; /* สีตัวอักษร */
+    border: none; /* ไม่มีเส้นขอบ */
+    border-radius: 0.5rem; /* ขอบมุมโค้งมน */
 }
