@@ -1,6 +1,12 @@
 html {
     background-color: rgb(3, 0, 27); /* กำหนดสีพื้นหลังสำหรับหน้าเว็บทั้งหมด */
 }
+
+h1 {
+    text-align: center; /* จัดตำแหน่งข้อความ h1 ให้อยู่กึ่งกลาง */
+    font-size: 4rem; /* ขนาดตัวอักษรใหญ่ */
+    color: white; /* สีตัวอักษรเป็นสีขาว */
+}
  
 body {
     font-family: Arial, sans-serif; /* ใช้ฟอนต์ Arial */
@@ -42,9 +48,43 @@ body {
     color: white; /* สีตัวอักษรเป็นสีขาว */
 }
 
+button {
+    padding: 10px 20px; /* กำหนด padding สำหรับปุ่ม */
+    cursor: pointer; /* เปลี่ยนรูป cursor เป็นรูปมือเมื่อชี้ที่ปุ่ม */
+    margin: 10px; /* ระยะห่างรอบๆ ปุ่ม */
+}
+
 #leaderboard {
     margin-top: 20px; /* ระยะห่างด้านบนสำหรับ leaderboard */
     color: white; /* สีตัวอักษรใน leaderboard */
+}
+
+#moves, #time {
+    margin: 10px 0; /* ระยะห่างด้านบนและด้านล่าง */
+    font-size: 18px; /* ขนาดตัวอักษร */
+    color: white; /* สีตัวอักษร */
+}
+
+#tiles {
+    width: 400px;
+    margin: 0 auto; /* จัดให้อยู่กึ่งกลางของหน้า */
+    position: relative; /* ทำให้สามารถจัดวางตำแหน่งแบบ absolute ภายใน #tiles ได้ */
+    background-color: rgb(3, 0, 27); /* สีพื้นหลังของ container */
+    padding: 8px; /* กำหนด padding รอบ container */
+    border-radius: 0.5rem; /* ขอบมุมโค้งมน */
+}
+
+.selected {
+    background-color: #ffffff; /* สีพื้นหลังของตัวเลือกที่ถูกเลือก */
+    border: none; /* ไม่มีเส้นขอบ */
+    color: white; /* สีตัวอักษร */
+}
+
+.btn {
+    font-size: 24px; /* ขนาดตัวอักษรของปุ่ม */
+    height: 80px; /* ความสูงของปุ่ม */
+    width: 25%; /* กำหนดความกว้างปุ่มให้เท่ากับ 25% ของ container */
+    cursor: pointer; /* เปลี่ยนรูป cursor เป็นรูปมือเมื่อชี้ที่ปุ่ม */
 }
 
 #login-page {
@@ -57,6 +97,21 @@ body {
     border-radius: 10px; /* ขอบมุมโค้งมน */
 }
 
+#leaderboard {
+    margin-top: 20px; /* ระยะห่างด้านบนสำหรับ leaderboard ในหน้า login */
+    color: white; /* สีตัวอักษรของ leaderboard */
+}
+
+#game-page {
+    display: flex; /* ใช้ flexbox ในการจัดวาง */
+    flex-direction: column; /* จัดวางองค์ประกอบในแนวตั้ง */
+    justify-content: space-between; /* จัดวางเนื้อหาโดยให้กระจายพื้นที่ระหว่างกัน */
+    align-items: flex-start; /* จัดวางเนื้อหาให้อยู่ด้านซ้าย (start) */
+    color: white; /* สีตัวอักษร */
+    height: 100vh; /* ใช้ความสูงเท่ากับความสูงของ viewport */
+    position: relative; /* กำหนดให้เป็น context สำหรับ position แบบ absolute ของลูก */
+}
+
 #go-back-btn {
     position: absolute; /* ปุ่ม Go Back ใช้ position แบบ absolute */
     bottom: 5px; /* ระยะห่างจากด้านล่าง */
@@ -64,7 +119,7 @@ body {
     padding: 10px 20px; /* ขนาด padding สำหรับปุ่ม */
     cursor: pointer; /* เปลี่ยนรูป cursor เป็นรูปมือเมื่อชี้ที่ปุ่ม */
     font-size: 18px; /* ขนาดตัวอักษรในปุ่ม */
-    background-color: #5e96ff; /* สีพื้นหลังของปุ่ม */
+    background-color: #FF8961; /* สีพื้นหลังของปุ่ม */
     color: white; /* สีตัวอักษร */
     border: none; /* ไม่มีเส้นขอบ */
     border-radius: 0.5rem; /* ขอบมุมโค้งมน */
