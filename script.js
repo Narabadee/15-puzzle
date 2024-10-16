@@ -48,12 +48,18 @@ function renderPuzzle() {
     container.innerHTML = '';
     puzzle.forEach((value, index) => {
         const div = document.createElement('div');
-        div.innerText = value ?? '';
-        if (value !== null) div.addEventListener('click', () => moveTile(index));
-        else emptyIndex = index;
+        div.innerText = value ?? ''; // แสดงค่าถ้าไม่ใช่ null, ถ้าเป็น null ให้แสดงช่องว่าง
+        if (value !== null) {
+            div.addEventListener('click', () => moveTile(index));
+            div.style.backgroundColor = '#3498db'; // สีพื้นหลังปกติ
+        } else {
+            emptyIndex = index;
+            div.style.backgroundColor = 'white'; // สีพื้นหลังสำหรับช่องที่เป็น null
+        }
         container.appendChild(div);
     });
 }
+
 
 function moveTile(index) {
     const validMoves = [emptyIndex - 1, emptyIndex + 1, emptyIndex - 4, emptyIndex + 4];
